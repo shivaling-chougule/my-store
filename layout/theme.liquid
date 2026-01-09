@@ -5,6 +5,10 @@
   {% endif %}
   lang="{{ request.locale.iso_code }}"
 >
+  <script>
+  console.log("request object : ", {{ request.locale | json }});
+</script>
+
   <head>
     {%- if settings.favicon != blank -%}
       <link

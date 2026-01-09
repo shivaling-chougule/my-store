@@ -1,0 +1,92 @@
+<div class="product-card__wrapper">
+    <div
+        class="product-card__image-wrapper"
+         style="
+            --img-h: {{ image_height | default: 200 }}px;
+            --img-w: {{ image_width | default: 200 }}px;
+        "
+        >
+        <img
+            height="100%" width="100%"
+            class="test-section-product-image"
+            src="{{ product.featured_image | image_url: width: 400 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            loading="lazy"
+        >
+    </div>
+    <div class="test-section-product-info">
+        <h5 class="test-section-product-title">
+            {{ product.title }}
+        </h5>
+
+        <p class="test-section-product-price">
+            {{ product.price | money }}
+        </p>
+    </div>
+</div>
+<style>
+    .product-card__wrapper {
+        height: auto;
+        min-width: 224px;
+        max-width: 248px;
+        height: 318px;
+        padding: 12px;
+        overflow: hidden;
+        border: 1px solid #aac4faff;
+        border-radius: 8px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        box-shadow: 0 4px 10px #79a2f9ff;
+
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card__wrapper:hover {
+        transform: scale(0.96);
+        box-shadow: 0 2px 6px rgba(128, 164, 248, 1);
+    }
+    .product-card__image-wrapper {
+        height: var(--img-h);
+        min-width: var(--img-w);
+        border-radius: 8px;
+        border: 1px solid #dadbddff;       
+        overflow: hidden; 
+    }
+    .test-section-product-image {
+        object-fit: cover;
+        display: block;
+    }
+
+    .test-section-product-info{
+        width: 100%;
+        height: auto;
+        max-height: 100px;
+        margin: 8px 4px;
+        overflow-y: auto;     
+        overflow-x: hidden; 
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal; 
+        scroll-behavior: smooth; 
+    }
+
+    .test-section-product-title {
+        margin: 0px;
+        color: #111827;
+        text-transform: capitalize;
+    }
+    .test-section-product-price {
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 1.1;
+        color: #3e3e3eff;
+        text-transform: capitalize;
+    }
+</style>

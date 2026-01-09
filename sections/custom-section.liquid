@@ -1,0 +1,231 @@
+<div class="product-block-container">
+  {% assign view_all = false %}
+  {% for block in section.blocks %}
+    {% case block.type %}
+
+      {% when 'header_block' %}
+        {% comment %} header {% endcomment %}
+        <div class="header-block__wrapper">
+          <h3 {{ block.shopify_attributes }}>
+            {{ block.settings.heading }}
+          </h3>
+          {% if view_all == false %}
+            <button
+              class="view-all-button"
+              type="button"
+              data-expanded="false"
+            >
+              {{ 'actions.view_all' | t }}
+            </button>
+          {% else %}
+            <button class="view-all-button">
+              View Less
+            </button>
+          {% endif %}
+        </div>
+        {% comment %} product block {% endcomment %}
+      {% when 'products_block' %}
+        {% assign selected_collection = block.settings.collection %}
+
+        {% if selected_collection != blank %}
+          <div class="products-block__wrapper is-collapsed">
+            {% for product in selected_collection.products limit: block.settings.show_number_of_products %}
+              {% render 'test-product-card',
+                product: product,
+                image_height: block.settings.image_height,
+                image_width: block.settings.image_width
+              %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>Please select a collection</p>
+        {% endif %}
+    {% endcase %}
+  {% endfor %}
+</div>
+
+{% style %}
+  /* Default horizontal scroll (collapsed) */
+  .products-block__wrapper.is-collapsed {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none; /* no restriction */
+  }
+
+  /* Expanded grid view */
+  .products-block__wrapper.is-expanded {
+    display: flex;
+    /* justify-content: space-between; */
+    flex-wrap: wrap;
+    gap: 12px;
+    max-height: 586px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .product-block-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .products-block__wrapper {
+    padding: 0px 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow: scroll;
+  }
+
+
+
+  .header-block__wrapper {
+    padding: 0px 12px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .view-all-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 30px;
+    padding: 8px 8px;
+
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+
+    color: white;
+    background-color: #07142eff;
+
+    border: 1px solid white;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(5, 16, 44, 1);
+
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+  }
+
+  /* Hover */
+  .view-all-button:hover {
+    color: black;
+    background-color: white;
+    border-color: black;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+  }
+
+  /* Active */
+  .view-all-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+  }
+
+  /* Focus (accessibility) */
+  .view-all-button:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px #ffffff,
+      0 0 0 4px rgba(37, 99, 235, 0.6);
+  }
+
+  /* Disabled state */
+  .view-all-button:disabled,
+  .view-all-button[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+{% endstyle %}
+
+<script src="{{ 'test-product-card.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Test section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section heading",
+      "default": "This is for test"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "header_block",
+      "name": "Header",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Products"
+        },
+        {
+          "type": "checkbox",
+          "id": "view_all",
+          "label": "Show view all button",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "products_block",
+      "name": "Products",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select collection"
+        },
+        {
+          "type": "range",
+          "id": "show_number_of_products",
+          "label": "Number of products",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "default": 10
+        },
+        {
+          "type": "number",
+          "id": "image_height",
+          "label": "Image height (px)",
+          "default": 200
+        },
+        {
+          "type": "number",
+          "id": "image_width",
+          "label": "Image width (px)",
+          "default": 200
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Test section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
