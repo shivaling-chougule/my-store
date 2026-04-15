@@ -1,0 +1,320 @@
+{%- comment -%} sections/about-us.liquid {%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+{%- liquid
+  assign sid = section.id
+  assign s = section.settings
+-%}
+
+{%- style -%}
+  #AboutUs-{{ sid }} {
+    --au-font: 'Dosis', sans-serif;
+    --au-banner-bg: {{ s.banner_bg }};
+    --au-banner-text: {{ s.banner_text_color }};
+    --au-btn-bg: {{ s.banner_btn_bg }};
+    --au-btn-text: {{ s.banner_btn_text }};
+    --au-row-bg: {{ s.row_bg }};
+    --au-row-heading: {{ s.row_heading_color }};
+    --au-row-body: {{ s.row_body_color }};
+    --au-max-w: {{ s.max_content_width }}px;
+    --au-banner-pad-v: {{ s.banner_padding_vertical }}px;
+    --au-row-pad-v: {{ s.row_padding_vertical }}px;
+    --au-row-pad-h: {{ s.row_padding_horizontal }}px;
+    --au-row-gap: {{ s.row_gap }}px;
+    --au-desktop-ar: {{ s.desktop_aspect_ratio }};
+    --au-mobile-ar: {{ s.mobile_aspect_ratio }};
+  }
+
+  #AboutUs-{{ sid }} .au-banner {
+    background: var(--au-banner-bg);
+    color: var(--au-banner-text);
+    padding: var(--au-banner-pad-v) 20px;
+    text-align: center;
+  }
+  #AboutUs-{{ sid }} .au-banner-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  #AboutUs-{{ sid }} .au-banner-heading {
+    font-family: var(--au-font);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin: 0;
+    color: inherit;
+  }
+  #AboutUs-{{ sid }} .au-banner-subtitle {
+    font-family: var(--au-font);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0;
+    color: inherit;
+  }
+  #AboutUs-{{ sid }} .au-banner-cta {
+    display: inline-block;
+    background: var(--au-btn-bg);
+    color: var(--au-btn-text);
+    font-family: var(--au-font);
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: none;
+    border-radius: 999px;
+    padding: 11px 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  #AboutUs-{{ sid }} .au-banner-cta:hover,
+  #AboutUs-{{ sid }} .au-banner-cta:focus-visible {
+    transform: translateY(-1px);
+    opacity: 0.92;
+  }
+
+  #AboutUs-{{ sid }} .au-row {
+    background: var(--au-row-bg);
+    padding: var(--au-row-pad-v) var(--au-row-pad-h);
+  }
+  #AboutUs-{{ sid }} .au-row-inner {
+    max-width: var(--au-max-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--au-row-gap);
+    align-items: center;
+  }
+  #AboutUs-{{ sid }} .au-row--text-right .au-row-text { order: 2; }
+  #AboutUs-{{ sid }} .au-row--text-right .au-row-media { order: 1; }
+
+  #AboutUs-{{ sid }} .au-row-heading {
+    font-family: var(--au-font);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--au-row-heading);
+    margin: 0 0 28px;
+  }
+  #AboutUs-{{ sid }} .au-row-body,
+  #AboutUs-{{ sid }} .au-row-body p {
+    font-family: var(--au-font);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--au-row-body);
+  }
+  #AboutUs-{{ sid }} .au-row-body p { margin: 0 0 16px; }
+  #AboutUs-{{ sid }} .au-row-body p:last-child { margin-bottom: 0; }
+
+  #AboutUs-{{ sid }} .au-row-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--au-desktop-ar);
+    overflow: hidden;
+  }
+  #AboutUs-{{ sid }} .au-row-media img,
+  #AboutUs-{{ sid }} .au-row-media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #AboutUs-{{ sid }} .au-row-media-desktop { display: block; }
+  #AboutUs-{{ sid }} .au-row-media-mobile { display: none; }
+
+  @media (max-width: 1024px) {
+    #AboutUs-{{ sid }} .au-banner-heading,
+    #AboutUs-{{ sid }} .au-row-heading { font-size: 32px; }
+    #AboutUs-{{ sid }} .au-row { padding: var(--au-row-pad-v) 32px; }
+  }
+
+  @media (max-width: 768px) {
+    #AboutUs-{{ sid }} .au-row-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    #AboutUs-{{ sid }} .au-row--text-right .au-row-text,
+    #AboutUs-{{ sid }} .au-row--text-right .au-row-media,
+    #AboutUs-{{ sid }} .au-row--text-left .au-row-text,
+    #AboutUs-{{ sid }} .au-row--text-left .au-row-media {
+      order: unset;
+    }
+    #AboutUs-{{ sid }} .au-row--text-right .au-row-media { order: 1; }
+    #AboutUs-{{ sid }} .au-row--text-right .au-row-text { order: 2; }
+    #AboutUs-{{ sid }} .au-row--text-left .au-row-media { order: 1; }
+    #AboutUs-{{ sid }} .au-row--text-left .au-row-text { order: 2; }
+    #AboutUs-{{ sid }} .au-row-media {
+      aspect-ratio: var(--au-mobile-ar);
+    }
+    #AboutUs-{{ sid }} .au-row-media-desktop { display: none; }
+    #AboutUs-{{ sid }} .au-row-media-mobile { display: block; }
+    #AboutUs-{{ sid }} .au-banner { padding: 60px 20px; }
+    #AboutUs-{{ sid }} .au-row { padding: 60px 24px; }
+    #AboutUs-{{ sid }} .au-banner-heading,
+    #AboutUs-{{ sid }} .au-row-heading { font-size: 28px; }
+    #AboutUs-{{ sid }} .au-row-heading { margin-bottom: 20px; }
+  }
+
+  @media (max-width: 390px) {
+    #AboutUs-{{ sid }} .au-banner { padding: 48px 16px; }
+    #AboutUs-{{ sid }} .au-row { padding: 48px 16px; }
+    #AboutUs-{{ sid }} .au-banner-heading,
+    #AboutUs-{{ sid }} .au-row-heading { font-size: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #AboutUs-{{ sid }} .au-banner-cta { transition: none; }
+  }
+{%- endstyle -%}
+
+<div
+  id="AboutUs-{{ sid }}"
+  class="shopify-section-about-us"
+  role="region"
+  aria-label="{{ s.banner_heading | default: 'About Us' | escape }}"
+>
+  {%- if s.enable_banner -%}
+    <div class="au-banner">
+      <div class="au-banner-inner">
+        {%- if s.banner_heading != blank -%}
+          <h2 class="au-banner-heading">{{ s.banner_heading | escape }}</h2>
+        {%- endif -%}
+        {%- if s.banner_subtitle != blank -%}
+          <p class="au-banner-subtitle">{{ s.banner_subtitle | escape }}</p>
+        {%- endif -%}
+        {%- if s.banner_cta_label != blank -%}
+          {%- if s.banner_cta_url != blank -%}
+            <a class="au-banner-cta" href="{{ s.banner_cta_url }}">{{ s.banner_cta_label | escape }}</a>
+          {%- else -%}
+            <button type="button" class="au-banner-cta">{{ s.banner_cta_label | escape }}</button>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if s.enable_row_1 -%}
+    <div class="au-row au-row--text-left">
+      <div class="au-row-inner">
+        <div class="au-row-text">
+          {%- if s.row_1_heading != blank -%}
+            <h2 class="au-row-heading">{{ s.row_1_heading | escape }}</h2>
+          {%- endif -%}
+          {%- if s.row_1_body != blank -%}
+            <div class="au-row-body">{{ s.row_1_body }}</div>
+          {%- endif -%}
+        </div>
+        <div class="au-row-media">
+          {%- if s.row_1_mobile_image != blank -%}
+            <div class="au-row-media-mobile">
+              {%- render 'image', image: s.row_1_mobile_image, class: 'au-img' -%}
+            </div>
+          {%- endif -%}
+          <div class="au-row-media-desktop">
+            {%- if s.row_1_desktop_image != blank -%}
+              {%- render 'image', image: s.row_1_desktop_image, class: 'au-img' -%}
+            {%- elsif s.row_1_mobile_image == blank -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'au-img' }}
+            {%- else -%}
+              {%- render 'image', image: s.row_1_mobile_image, class: 'au-img' -%}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if s.enable_row_2 -%}
+    <div class="au-row au-row--text-right">
+      <div class="au-row-inner">
+        <div class="au-row-media">
+          {%- if s.row_2_mobile_image != blank -%}
+            <div class="au-row-media-mobile">
+              {%- render 'image', image: s.row_2_mobile_image, class: 'au-img' -%}
+            </div>
+          {%- endif -%}
+          <div class="au-row-media-desktop">
+            {%- if s.row_2_desktop_image != blank -%}
+              {%- render 'image', image: s.row_2_desktop_image, class: 'au-img' -%}
+            {%- elsif s.row_2_mobile_image == blank -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'au-img' }}
+            {%- else -%}
+              {%- render 'image', image: s.row_2_mobile_image, class: 'au-img' -%}
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="au-row-text">
+          {%- if s.row_2_heading != blank -%}
+            <h2 class="au-row-heading">{{ s.row_2_heading | escape }}</h2>
+          {%- endif -%}
+          {%- if s.row_2_body != blank -%}
+            <div class="au-row-body">{{ s.row_2_body }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "About Us",
+  "class": "shopify-section-about-us",
+  "settings": [
+    { "type": "header", "content": "Welcome Banner" },
+    { "type": "checkbox", "id": "enable_banner", "label": "Show welcome banner", "default": true },
+    { "type": "text", "id": "banner_heading", "label": "Heading", "default": "Welcome to Fire the Imagination!" },
+    { "type": "textarea", "id": "banner_subtitle", "label": "Subtitle", "default": "Thank you for trusting us to bring joy and wonder to your family. Whether you're looking for the perfect toy, an inspiring story, or tools to spark creativity, we're here to help." },
+    { "type": "text", "id": "banner_cta_label", "label": "Button label", "default": "EXPLORE OUR PRODUCTS" },
+    { "type": "url", "id": "banner_cta_url", "label": "Button link" },
+
+    { "type": "header", "content": "Banner Colors" },
+    { "type": "color", "id": "banner_bg", "label": "Banner background", "default": "#FE534C" },
+    { "type": "color", "id": "banner_text_color", "label": "Banner text", "default": "#FFFFFF" },
+    { "type": "color", "id": "banner_btn_bg", "label": "Button background", "default": "#FFFFFF" },
+    { "type": "color", "id": "banner_btn_text", "label": "Button text", "default": "#FE534C" },
+
+    { "type": "header", "content": "Row 1 — From Our Family to Yours" },
+    { "type": "checkbox", "id": "enable_row_1", "label": "Show row 1", "default": true },
+    { "type": "text", "id": "row_1_heading", "label": "Heading", "default": "From Our Family to Yours" },
+    { "type": "richtext", "id": "row_1_body", "label": "Body", "default": "<p>Our unwavering commitment has been to inspire families everywhere. We achieve this by offering an exceptional array of entertainment options that captivate audiences of all ages, alongside a diverse selection of innovative toys designed to ignite creativity and bring joy to every household. Our mission is to create memorable experiences that foster imagination and togetherness among families.</p>" },
+    { "type": "image_picker", "id": "row_1_desktop_image", "label": "Desktop image" },
+    { "type": "image_picker", "id": "row_1_mobile_image", "label": "Mobile image (optional)" },
+
+    { "type": "header", "content": "Row 2 — Where It All Began" },
+    { "type": "checkbox", "id": "enable_row_2", "label": "Show row 2", "default": true },
+    { "type": "text", "id": "row_2_heading", "label": "Heading", "default": "Where It All Began" },
+    { "type": "richtext", "id": "row_2_body", "label": "Body", "default": "<p>\"More than 15 years ago, we set off on a long road trip with three young children, a few buckets of books and toys, and two Jim Weiss CDs borrowed from the Guelph Public Library. Little did we know, those CDs would inspire a journey that became Fire the Imagination.</p><p>Jim Weiss, with his incredible storytelling gift, brought joy, laughter, and quiet wonder to our family. By the end of the trip, we knew we wanted to share this magic with other families. And so, Fire the Imagination was born—built on a dream to provide exceptional entertainment for children everywhere.\"</p>" },
+    { "type": "image_picker", "id": "row_2_desktop_image", "label": "Desktop image" },
+    { "type": "image_picker", "id": "row_2_mobile_image", "label": "Mobile image (optional)" },
+
+    { "type": "header", "content": "Row Colors" },
+    { "type": "color", "id": "row_bg", "label": "Row background", "default": "#FFFFFF" },
+    { "type": "color", "id": "row_heading_color", "label": "Heading color", "default": "#000000" },
+    { "type": "color", "id": "row_body_color", "label": "Body text color", "default": "#000000" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "banner_padding_vertical", "label": "Banner vertical padding", "min": 40, "max": 200, "step": 8, "unit": "px", "default": 120 },
+    { "type": "range", "id": "row_padding_vertical", "label": "Row vertical padding", "min": 40, "max": 200, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "row_padding_horizontal", "label": "Row horizontal padding", "min": 16, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "row_gap", "label": "Text/image gap", "min": 20, "max": 120, "step": 4, "unit": "px", "default": 52 },
+    { "type": "range", "id": "max_content_width", "label": "Max content width", "min": 1000, "max": 1600, "step": 40, "unit": "px", "default": 1440 },
+    { "type": "range", "id": "desktop_aspect_ratio", "label": "Desktop image aspect ratio", "min": 0.5, "max": 1.5, "step": 0.1, "default": 1.0 },
+    { "type": "range", "id": "mobile_aspect_ratio", "label": "Mobile image aspect ratio", "min": 0.5, "max": 2.5, "step": 0.1, "default": 1.2 }
+  ],
+  "presets": [
+    { "name": "About Us", "category": "Pages" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,538 @@
+{% comment %} sections/countdown-promo-banner.liquid {% endcomment %}
+
+{%- liquid
+  assign sid = section.id
+  assign s = section.settings
+  assign align = s.content_alignment | default: 'center'
+-%}
+
+{%- style -%}
+  #CountdownBanner-{{ sid }} {
+    --cb-bg: {{ s.bg_color }};
+    --cb-accent: {{ s.accent_color }};
+    --cb-text: {{ s.text_color }};
+    --cb-timer-bg: {{ s.timer_bg_color }};
+    --cb-timer-text: {{ s.timer_text_color }};
+    --cb-cta-bg: {{ s.cta_bg_color }};
+    --cb-cta-text: {{ s.cta_text_color }};
+    --cb-cta-hover-bg: {{ s.cta_hover_bg_color }};
+    --cb-border-radius: {{ s.border_radius }}px;
+    --cb-pad-top: {{ s.section_padding_top }}px;
+    --cb-pad-bottom: {{ s.section_padding_bottom }}px;
+    --cb-max-w: {{ s.max_content_width }}px;
+    --cb-border-color: {{ s.border_color }};
+    --cb-overlay: {{ s.bg_overlay_opacity | divided_by: 100.0 }};
+
+    position: relative;
+    background-color: var(--cb-bg);
+    color: var(--cb-text);
+    padding: var(--cb-pad-top) 20px var(--cb-pad-bottom);
+    text-align: {{ align }};
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  {%- if s.enable_gradient -%}
+    #CountdownBanner-{{ sid }} {
+      background-image: linear-gradient({{ s.gradient_direction }}, {{ s.gradient_start }}, {{ s.gradient_end }});
+    }
+  {%- endif -%}
+
+  {%- if s.bg_image != blank -%}
+    #CountdownBanner-{{ sid }}::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('{{ s.bg_image | image_url: width: 2000 }}');
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+    }
+    #CountdownBanner-{{ sid }}::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,var(--cb-overlay));
+      z-index: -1;
+    }
+  {%- endif -%}
+
+  {%- if s.color_scheme == 'light' -%}
+    #CountdownBanner-{{ sid }} { color-scheme: light; }
+  {%- else -%}
+    #CountdownBanner-{{ sid }} { color-scheme: dark; }
+  {%- endif -%}
+
+  {%- if s.show_border -%}
+    #CountdownBanner-{{ sid }} {
+      border-top: 1px solid var(--cb-border-color);
+      border-bottom: 1px solid var(--cb-border-color);
+    }
+  {%- endif -%}
+
+  #CountdownBanner-{{ sid }} .cb-inner {
+    max-width: var(--cb-max-w);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: {% if align == 'left' %}flex-start{% elsif align == 'right' %}flex-end{% else %}center{% endif %};
+  }
+
+  #CountdownBanner-{{ sid }} .cb-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--cb-accent);
+    margin: 0;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-heading {
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-subtext {
+    font-size: 16px;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin: 0;
+    max-width: 640px;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-timer {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(70px, 1fr));
+    gap: 12px;
+    margin: 8px 0;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-cell {
+    background: var(--cb-timer-bg);
+    color: var(--cb-timer-text);
+    border-radius: var(--cb-border-radius);
+    padding: 18px 10px 12px;
+    min-width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  #CountdownBanner-{{ sid }} .cb-digit {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-cell-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-cta {
+    position: relative;
+    display: inline-block;
+    background: var(--cb-cta-bg);
+    color: var(--cb-cta-text);
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: var(--cb-border-radius);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: background 0.25s ease, transform 0.25s ease;
+    overflow: hidden;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-cta:hover,
+  #CountdownBanner-{{ sid }} .cb-cta:focus-visible {
+    background: var(--cb-cta-hover-bg);
+    transform: translateY(-1px);
+  }
+
+  #CountdownBanner-{{ sid }} .cb-cta:focus-visible {
+    outline: 2px solid var(--cb-accent);
+    outline-offset: 3px;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-fine {
+    font-size: 12px;
+    opacity: 0.6;
+    margin: 0;
+  }
+
+  #CountdownBanner-{{ sid }} .cb-expired {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cb-accent);
+  }
+
+  {%- if s.enable_animations -%}
+    #CountdownBanner-{{ sid }} .cb-inner > * {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: cb-fade-{{ sid }} 0.6s ease forwards;
+    }
+    #CountdownBanner-{{ sid }} .cb-inner > *:nth-child(1) { animation-delay: 0.05s; }
+    #CountdownBanner-{{ sid }} .cb-inner > *:nth-child(2) { animation-delay: 0.15s; }
+    #CountdownBanner-{{ sid }} .cb-inner > *:nth-child(3) { animation-delay: 0.25s; }
+    #CountdownBanner-{{ sid }} .cb-inner > *:nth-child(4) { animation-delay: 0.35s; }
+    #CountdownBanner-{{ sid }} .cb-inner > *:nth-child(5) { animation-delay: 0.45s; }
+    #CountdownBanner-{{ sid }} .cb-inner > *:nth-child(6) { animation-delay: 0.55s; }
+
+    @keyframes cb-fade-{{ sid }} {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  {%- endif -%}
+
+  {% comment %} Pulse animation driven via Web Animations API in JS — no keyframes needed {% endcomment %}
+
+  {%- if s.enable_shimmer_cta -%}
+    #CountdownBanner-{{ sid }} .cb-cta::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -150%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+      animation: cb-shimmer-{{ sid }} 2.8s ease-in-out infinite;
+    }
+    @keyframes cb-shimmer-{{ sid }} {
+      0%   { left: -150%; }
+      60%  { left: 150%; }
+      100% { left: 150%; }
+    }
+  {%- endif -%}
+
+  /* Mobile — project breakpoint small 390px */
+  @media (max-width: 390px) {
+    #CountdownBanner-{{ sid }} .cb-timer {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    #CountdownBanner-{{ sid }} .cb-cell {
+      min-width: 0;
+      padding: 14px 8px 10px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #CountdownBanner-{{ sid }} *,
+    #CountdownBanner-{{ sid }} *::before,
+    #CountdownBanner-{{ sid }} *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+    #CountdownBanner-{{ sid }} .cb-inner > * {
+      opacity: 1;
+      transform: none;
+    }
+  }
+{%- endstyle -%}
+
+{% comment %} Wrapper — hidden via inline style if expired + hide_when_expired on JS side {% endcomment %}
+<div
+  id="CountdownBanner-{{ sid }}"
+  class="shopify-section-countdown-banner cb-scheme-{{ s.color_scheme }}"
+  data-cb-root
+  data-end-date="{{ s.end_date | escape }}"
+  data-hide-when-expired="{{ s.hide_when_expired }}"
+  data-expired-message="{{ s.expired_message | escape }}"
+  role="region"
+  aria-label="{{ s.heading | default: 'Promotional countdown' | escape }}"
+>
+  <div class="cb-inner">
+    {%- if s.promo_label != blank -%}
+      <p class="cb-eyebrow">{{ s.promo_label | escape }}</p>
+    {%- endif -%}
+
+    {%- if s.heading != blank -%}
+      <h2 class="cb-heading">{{ s.heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if s.subtext != blank -%}
+      <p class="cb-subtext">{{ s.subtext | escape }}</p>
+    {%- endif -%}
+
+    {% comment %} Timer — role=timer only; aria-live would cause screen-reader chatter {% endcomment %}
+    <div
+      class="cb-timer"
+      role="timer"
+      data-cb-timer
+    >
+      <div class="cb-cell">
+        <span class="cb-digit" data-cb-days>00</span>
+        <span class="cb-cell-label">{{ s.timer_label_days | escape }}</span>
+      </div>
+      <div class="cb-cell">
+        <span class="cb-digit" data-cb-hours>00</span>
+        <span class="cb-cell-label">{{ s.timer_label_hours | escape }}</span>
+      </div>
+      <div class="cb-cell">
+        <span class="cb-digit" data-cb-minutes>00</span>
+        <span class="cb-cell-label">{{ s.timer_label_minutes | escape }}</span>
+      </div>
+      <div class="cb-cell">
+        <span class="cb-digit" data-cb-seconds>00</span>
+        <span class="cb-cell-label">{{ s.timer_label_seconds | escape }}</span>
+      </div>
+    </div>
+
+    {%- if s.cta_text != blank and s.cta_url != blank -%}
+      <a href="{{ s.cta_url | escape }}" class="cb-cta" data-cb-cta>
+        {{ s.cta_text | escape }}
+      </a>
+    {%- endif -%}
+
+    {%- if s.fine_print != blank -%}
+      <p class="cb-fine">{{ s.fine_print | escape }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var SECTION_ID = '{{ sid }}';
+    var pulseEnabled = {{ s.enable_timer_pulse | json }};
+    var intervalId = null;
+    var unloadHandler = null;
+
+    function init() {
+      var root = document.getElementById('CountdownBanner-' + SECTION_ID);
+      if (!root) return;
+
+      var endRaw = root.dataset.endDate;
+      var hideWhenExpired = root.dataset.hideWhenExpired === 'true';
+      var expiredMessage = root.dataset.expiredMessage || 'This offer has ended.';
+      var endTs = endRaw ? Date.parse(endRaw) : NaN;
+
+      var timer = root.querySelector('[data-cb-timer]');
+      var elDays = root.querySelector('[data-cb-days]');
+      var elHours = root.querySelector('[data-cb-hours]');
+      var elMinutes = root.querySelector('[data-cb-minutes]');
+      var elSeconds = root.querySelector('[data-cb-seconds]');
+
+      if (!timer || !elDays || !elHours || !elMinutes || !elSeconds) return;
+
+      // Invalid or missing date — graceful degrade
+      if (isNaN(endTs)) {
+        elDays.textContent = '—';
+        elHours.textContent = '—';
+        elMinutes.textContent = '—';
+        elSeconds.textContent = '—';
+        return;
+      }
+
+      function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+      function setDigit(el, next) {
+        if (el.textContent === next) return;
+        el.textContent = next;
+        if (!pulseEnabled) return;
+        // Use Web Animations API to avoid forced reflow
+        if (typeof el.animate === 'function') {
+          el.animate(
+            [
+              { transform: 'scale(1)' },
+              { transform: 'scale(1.12)', offset: 0.4 },
+              { transform: 'scale(1)' }
+            ],
+            { duration: 500, easing: 'ease' }
+          );
+        }
+      }
+
+      function showExpired() {
+        if (hideWhenExpired) {
+          root.style.display = 'none';
+          return;
+        }
+        var p = document.createElement('p');
+        p.className = 'cb-expired';
+        p.textContent = expiredMessage;
+        timer.replaceChildren ? timer.replaceChildren(p) : (timer.innerHTML = '', timer.appendChild(p));
+      }
+
+      function tick() {
+        var diff = endTs - Date.now();
+
+        if (diff <= 0) {
+          showExpired();
+          if (intervalId) { clearInterval(intervalId); intervalId = null; }
+          return;
+        }
+
+        var days = Math.floor(diff / 86400000);
+        var hours = Math.floor((diff % 86400000) / 3600000);
+        var minutes = Math.floor((diff % 3600000) / 60000);
+        var seconds = Math.floor((diff % 60000) / 1000);
+
+        setDigit(elDays, pad(days));
+        setDigit(elHours, pad(hours));
+        setDigit(elMinutes, pad(minutes));
+        setDigit(elSeconds, pad(seconds));
+      }
+
+      tick();
+      intervalId = setInterval(tick, 1000);
+    }
+
+    function destroy() {
+      if (intervalId) { clearInterval(intervalId); intervalId = null; }
+    }
+
+    // Theme editor — reinit on section reload, cleanup on unload
+    function onSectionEvent(e, cb) {
+      if (e.detail && e.detail.sectionId === SECTION_ID) cb();
+    }
+
+    unloadHandler = function (e) { onSectionEvent(e, destroy); };
+    document.addEventListener('shopify:section:unload', unloadHandler);
+    document.addEventListener('shopify:section:load', function (e) {
+      onSectionEvent(e, function () { destroy(); init(); });
+    });
+
+    init();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Promo Banner",
+  "class": "shopify-section-countdown-banner",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "promo_label", "label": "Eyebrow label", "default": "Flash Sale" },
+    { "type": "text", "id": "heading", "label": "Headline", "default": "Up to 50% Off — Today Only" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext / description" },
+    { "type": "text", "id": "fine_print", "label": "Fine print", "default": "Ends midnight. While stocks last." },
+    { "type": "text", "id": "cta_text", "label": "CTA text", "default": "Shop the Sale" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" },
+
+    { "type": "header", "content": "Timer" },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "Countdown end date",
+      "info": "ISO format: 2026-12-31T23:59:59",
+      "default": "2026-12-31T23:59:59"
+    },
+    { "type": "text", "id": "timer_label_days", "label": "Days label", "default": "Days" },
+    { "type": "text", "id": "timer_label_hours", "label": "Hours label", "default": "Hours" },
+    { "type": "text", "id": "timer_label_minutes", "label": "Minutes label", "default": "Minutes" },
+    { "type": "text", "id": "timer_label_seconds", "label": "Seconds label", "default": "Seconds" },
+    { "type": "text", "id": "expired_message", "label": "Expired message", "default": "This offer has ended." },
+    { "type": "checkbox", "id": "hide_when_expired", "label": "Hide section when expired", "default": false },
+
+    { "type": "header", "content": "Color & Style" },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "light", "label": "Light" }
+      ],
+      "default": "dark"
+    },
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#0B0B0E" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#D4AF37" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#F7F3EA" },
+    { "type": "color", "id": "timer_bg_color", "label": "Timer box background", "default": "#1A1A1F" },
+    { "type": "color", "id": "timer_text_color", "label": "Timer digit color", "default": "#F7F3EA" },
+    { "type": "color", "id": "cta_bg_color", "label": "CTA background", "default": "#D4AF37" },
+    { "type": "color", "id": "cta_text_color", "label": "CTA text", "default": "#0B0B0E" },
+    { "type": "color", "id": "cta_hover_bg_color", "label": "CTA hover background", "default": "#E8C252" },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0, "max": 30, "step": 1, "unit": "px",
+      "default": 8
+    },
+
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    {
+      "type": "range",
+      "id": "bg_overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0, "max": 100, "step": 5, "unit": "%",
+      "default": 60
+    },
+    { "type": "checkbox", "id": "enable_gradient", "label": "Enable gradient background", "default": false },
+    { "type": "color", "id": "gradient_start", "label": "Gradient start", "default": "#0B0B0E" },
+    { "type": "color", "id": "gradient_end", "label": "Gradient end", "default": "#3A1B1B" },
+    {
+      "type": "select",
+      "id": "gradient_direction",
+      "label": "Gradient direction",
+      "options": [
+        { "value": "to right", "label": "To right" },
+        { "value": "to bottom", "label": "To bottom" },
+        { "value": "135deg", "label": "135 degrees" },
+        { "value": "to bottom right", "label": "To bottom right" }
+      ],
+      "default": "135deg"
+    },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 120, "step": 4, "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 120, "step": 4, "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "max_content_width",
+      "label": "Max content width",
+      "min": 400, "max": 1400, "step": 20, "unit": "px",
+      "default": 900
+    },
+    { "type": "checkbox", "id": "show_border", "label": "Show top/bottom border", "default": false },
+    { "type": "color", "id": "border_color", "label": "Border color", "default": "#D4AF37" },
+
+    { "type": "header", "content": "Animations" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable entrance animations", "default": true },
+    { "type": "checkbox", "id": "enable_timer_pulse", "label": "Pulse timer digits on change", "default": true },
+    { "type": "checkbox", "id": "enable_shimmer_cta", "label": "Shimmer effect on CTA", "default": true }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Promo Banner",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
