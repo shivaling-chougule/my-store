@@ -1,0 +1,484 @@
+{%- comment -%} sections/faq-page.liquid {%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+{%- liquid
+  assign sid = section.id
+  assign s = section.settings
+-%}
+
+{%- style -%}
+  #FaqPage-{{ sid }} {
+    --faq-font: 'Dosis', sans-serif;
+    --faq-heading-color: {{ s.heading_color }};
+    --faq-question-color: {{ s.question_color }};
+    --faq-answer-color: {{ s.answer_color }};
+    --faq-divider-color: {{ s.divider_color }};
+    --faq-bg: {{ s.section_bg }};
+    --faq-sidebar-color: {{ s.sidebar_color }};
+    --faq-sidebar-active: {{ s.sidebar_active_color }};
+    --faq-pad-top: {{ s.padding_top }}px;
+    --faq-pad-bottom: {{ s.padding_bottom }}px;
+    --faq-pad-h: {{ s.padding_horizontal }}px;
+  }
+
+  #FaqPage-{{ sid }} {
+    background: var(--faq-bg);
+    font-family: var(--faq-font);
+    padding: var(--faq-pad-top) var(--faq-pad-h) var(--faq-pad-bottom);
+  }
+
+  #FaqPage-{{ sid }} .faq-title {
+    font-family: var(--faq-font);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--faq-heading-color);
+    margin: 0 0 40px;
+  }
+
+  #FaqPage-{{ sid }} .faq-layout {
+    display: flex;
+    gap: 80px;
+    align-items: flex-start;
+  }
+
+  /* ── Sidebar ── */
+  #FaqPage-{{ sid }} .faq-sidebar {
+    position: sticky;
+    top: 120px;
+    flex-shrink: 0;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  #FaqPage-{{ sid }} .faq-sidebar-link {
+    font-family: var(--faq-font);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 43.5px;
+    text-transform: uppercase;
+    color: var(--faq-sidebar-color);
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    display: inline-block;
+  }
+
+  #FaqPage-{{ sid }} .faq-sidebar-link.is-active {
+    color: var(--faq-sidebar-active);
+    border-bottom: 2px solid var(--faq-sidebar-active);
+    display: inline-block;
+  }
+
+  #FaqPage-{{ sid }} .faq-sidebar-link:hover {
+    color: var(--faq-sidebar-active);
+  }
+
+  /* ── Content area ── */
+  #FaqPage-{{ sid }} .faq-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── Category ── */
+  #FaqPage-{{ sid }} .faq-category + .faq-category {
+    margin-top: 48px;
+  }
+
+  #FaqPage-{{ sid }} .faq-category-heading {
+    font-family: var(--faq-font);
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 43.5px;
+    text-transform: uppercase;
+    color: var(--faq-heading-color);
+    margin: 0 0 8px;
+  }
+
+  /* ── FAQ item (details/summary) ── */
+  #FaqPage-{{ sid }} .faq-item {
+    border-top: 1px solid var(--faq-divider-color);
+  }
+
+  #FaqPage-{{ sid }} .faq-item:last-child {
+    border-bottom: 1px solid var(--faq-divider-color);
+  }
+
+  #FaqPage-{{ sid }} .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--faq-font);
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 43.5px;
+    text-transform: uppercase;
+    color: var(--faq-question-color);
+  }
+
+  #FaqPage-{{ sid }} .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  #FaqPage-{{ sid }} .faq-item summary::marker {
+    content: '';
+  }
+
+  #FaqPage-{{ sid }} .faq-item summary:focus-visible {
+    outline: 2px solid var(--faq-sidebar-active);
+    outline-offset: 2px;
+  }
+
+  #FaqPage-{{ sid }} .faq-icon {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  #FaqPage-{{ sid }} .faq-icon::before,
+  #FaqPage-{{ sid }} .faq-icon::after {
+    content: '';
+    position: absolute;
+    background: var(--faq-question-color);
+  }
+
+  #FaqPage-{{ sid }} .faq-icon::before {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    transform: translateY(-50%);
+  }
+
+  #FaqPage-{{ sid }} .faq-icon::after {
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease;
+  }
+
+  #FaqPage-{{ sid }} .faq-item[open] .faq-icon::after {
+    transform: translateX(-50%) scaleY(0);
+  }
+
+  #FaqPage-{{ sid }} .faq-answer {
+    padding: 0 0 24px;
+    font-family: var(--faq-font);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--faq-answer-color);
+  }
+
+  #FaqPage-{{ sid }} .faq-answer p {
+    margin: 0 0 12px;
+  }
+
+  #FaqPage-{{ sid }} .faq-answer p:last-child {
+    margin-bottom: 0;
+  }
+
+  #FaqPage-{{ sid }} .faq-answer a {
+    color: var(--faq-sidebar-active);
+    text-decoration: underline;
+  }
+
+  /* ── Responsive ── */
+  @media (prefers-reduced-motion: reduce) {
+    #FaqPage-{{ sid }} .faq-icon,
+    #FaqPage-{{ sid }} .faq-icon::after {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #FaqPage-{{ sid }} .faq-title {
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+
+    #FaqPage-{{ sid }} .faq-layout {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    #FaqPage-{{ sid }} .faq-sidebar {
+      position: static;
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0 24px;
+    }
+
+    #FaqPage-{{ sid }} .faq-category-heading {
+      font-size: 24px;
+    }
+
+    #FaqPage-{{ sid }} .faq-item summary {
+      font-size: 16px;
+      line-height: 1.4;
+      padding: 14px 0;
+    }
+  }
+{%- endstyle -%}
+
+<div id="FaqPage-{{ sid }}">
+  <h2 class="faq-title">{{ s.page_title | escape }}</h2>
+
+  <div class="faq-layout">
+    {%- comment -%} Sidebar navigation — built from category blocks {%- endcomment -%}
+    <nav class="faq-sidebar" aria-label="FAQ categories">
+      {%- assign cat_index = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq_category' -%}
+          <a
+            class="faq-sidebar-link{% if cat_index == 0 %} is-active{% endif %}"
+            href="#faq-cat-{{ sid }}-{{ block.id }}"
+            data-faq-sidebar-link
+          >
+            {{- block.settings.category_name | escape -}}
+          </a>
+          {%- assign cat_index = cat_index | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    {%- comment -%} Main content — categories with FAQ items nested after each category block {%- endcomment -%}
+    <div class="faq-content">
+      {%- assign in_category = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq_category' -%}
+          {%- if in_category -%}
+            </div>
+          {%- endif -%}
+          <div class="faq-category" id="faq-cat-{{ sid }}-{{ block.id }}" {{ block.shopify_attributes }}>
+            <h3 class="faq-category-heading">{{ block.settings.category_name | escape }}</h3>
+          {%- assign in_category = true -%}
+
+        {%- elsif block.type == 'faq_item' and in_category -%}
+          <details
+            class="faq-item"
+            {{ block.shopify_attributes }}
+            {% if block.settings.open_by_default %}open{% endif %}
+          >
+            <summary>
+              <span>{{ block.settings.question | escape }}</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer">
+              {{ block.settings.answer }}
+            </div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if in_category -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var container = document.getElementById('FaqPage-{{ sid }}');
+    if (!container) return;
+
+    var links = container.querySelectorAll('[data-faq-sidebar-link]');
+    var categories = container.querySelectorAll('.faq-category');
+    if (!links.length) return;
+
+    /* Sidebar click → smooth scroll + active state */
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        links.forEach(function(l) { l.classList.remove('is-active'); });
+        link.classList.add('is-active');
+        var target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    /* Scrollspy — update active sidebar link on scroll */
+    if ('IntersectionObserver' in window && categories.length) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.id;
+            links.forEach(function(l) {
+              l.classList.toggle('is-active', l.getAttribute('href') === '#' + id);
+            });
+          }
+        });
+      }, { rootMargin: '-20% 0px -60% 0px' });
+
+      categories.forEach(function(cat) { observer.observe(cat); });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Page",
+  "tag": "section",
+  "class": "faq-page-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page title",
+      "default": "FAQ"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Question color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_color",
+      "label": "Sidebar link color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_active_color",
+      "label": "Sidebar active color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 20,
+      "max": 200,
+      "step": 4,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 20,
+      "max": 200,
+      "step": 4,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Padding horizontal",
+      "min": 16,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Category name",
+          "default": "General"
+        }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is your return policy?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer goes here.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Page",
+      "blocks": [
+        { "type": "faq_category", "settings": { "category_name": "General" } },
+        { "type": "faq_item", "settings": { "question": "What is Fire the Imagination?", "answer": "<p>Fire the Imagination is a wholesale toy distributor specializing in unique, high-quality toys and gifts.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How do I get started with your website?", "answer": "<p>Simply browse our catalog, create an account, and start placing orders.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Where are your products sourced from?", "answer": "<p>Our products are sourced from trusted manufacturers around the world.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How can I contact you for more information?", "answer": "<p>You can reach us via our contact page or email us directly.</p>" } },
+        { "type": "faq_category", "settings": { "category_name": "Retailer" } },
+        { "type": "faq_item", "settings": { "question": "How do I register as a retailer?", "answer": "<p>Visit our retailer registration page and fill out the application form.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Do you offer bulk discounts for retailers?", "answer": "<p>Yes, we offer tiered pricing based on order volume.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Can I request exclusive catalogs for my store?", "answer": "<p>Yes, we can provide customized catalogs for your retail needs.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Is there a minimum order quantity?", "answer": "<p>Minimum order requirements vary by product line. Contact us for details.</p>" } },
+        { "type": "faq_category", "settings": { "category_name": "Product Information" } },
+        { "type": "faq_item", "settings": { "question": "Are your products eco-friendly?", "answer": "<p>We are committed to sustainability and offer a growing range of eco-friendly products.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Are your toys safe for all ages?", "answer": "<p>All our products meet strict safety standards. Age recommendations are listed on each product.</p>" } },
+        { "type": "faq_item", "settings": { "question": "Do you carry educational toys?", "answer": "<p>Yes, we have a wide selection of educational toys across all age groups.</p>" } },
+        { "type": "faq_item", "settings": { "question": "How can I see product availability?", "answer": "<p>Product availability is shown in real-time on each product page.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
