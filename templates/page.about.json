@@ -1,8 +1,47 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "about_us": {
       "type": "about-us",
-      "settings": {}
+      "settings": {
+        "enable_banner": true,
+        "banner_heading": "Welcome to Fire the Imagination!",
+        "banner_subtitle": "Thank you for trusting us to bring joy and wonder to your family. Whether you're looking for the perfect toy, an inspiring story, or tools to spark creativity, we're here to help.",
+        "banner_cta_label": "EXPLORE OUR PRODUCTS",
+        "banner_cta_url": "",
+        "banner_bg": "#fe534c",
+        "banner_text_color": "#ffffff",
+        "banner_btn_bg": "#ffffff",
+        "banner_btn_text": "#fe534c",
+        "enable_row_1": true,
+        "row_1_heading": "From Our Family to Yours",
+        "row_1_body": "<p>Our unwavering commitment has been to inspire families everywhere. We achieve this by offering an exceptional array of entertainment options that captivate audiences of all ages, alongside a diverse selection of innovative toys designed to ignite creativity and bring joy to every household. Our mission is to create memorable experiences that foster imagination and togetherness among families.</p>",
+        "row_1_desktop_image": "shopify://shop_images/theme_cover_image.jpg",
+        "row_1_mobile_image": "shopify://shop_images/theme_cover_image.jpg",
+        "enable_row_2": true,
+        "row_2_heading": "Where It All Began",
+        "row_2_body": "<p>\"More than 15 years ago, we set off on a long road trip with three young children, a few buckets of books and toys, and two Jim Weiss CDs borrowed from the Guelph Public Library. Little did we know, those CDs would inspire a journey that became Fire the Imagination.</p><p>Jim Weiss, with his incredible storytelling gift, brought joy, laughter, and quiet wonder to our family. By the end of the trip, we knew we wanted to share this magic with other families. And so, Fire the Imagination was born—built on a dream to provide exceptional entertainment for children everywhere.\"</p>",
+        "row_2_desktop_image": "shopify://shop_images/theme_cover_image.jpg",
+        "row_2_mobile_image": "shopify://shop_images/theme_cover_image.jpg",
+        "row_bg": "#ffffff",
+        "row_heading_color": "#000000",
+        "row_body_color": "#000000",
+        "banner_padding_vertical": 120,
+        "row_padding_vertical": 80,
+        "row_padding_horizontal": 64,
+        "row_gap": 52,
+        "max_content_width": 1440,
+        "desktop_aspect_ratio": 1,
+        "mobile_aspect_ratio": 1.2
+      }
     }
   },
   "order": [
