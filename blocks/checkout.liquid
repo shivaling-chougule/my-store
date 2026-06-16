@@ -1,0 +1,82 @@
+{%- doc -%}
+  This block is used to display the checkout button.
+  Links directly to the checkout with the customer's existing cart.
+  Intended for product-form.liquid block.
+{%- enddoc -%}
+
+{% liquid
+  assign scoped_class = block.settings.style_class | append: '--' | append: block.id
+  assign class = 'checkout-button ' | append: block.settings.style_class | append: ' ' | append: scoped_class
+  assign id = 'BuyButtons-CheckoutButton-' | append: block.id
+%}
+{% render 'button-custom-styles', block_settings: block.settings, block_id: block.id %}
+
+<span
+  {{ block.shopify_attributes }}
+  style="--checkout-font-case: {{ settings.button_text_case }};"
+>
+  {% render 'checkout-button',
+    id: id,
+    class: class,
+    data_testid: 'standalone-checkout'
+  %}
+</span>
+
+{% schema %}
+{
+  "name": "t:names.checkout",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "style_class",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "button",
+          "label": "t:options.primary"
+        },
+        {
+          "value": "button-secondary",
+          "label": "t:options.secondary"
+        },
+        {
+          "value": "button-custom",
+          "label": "t:options.custom"
+        }
+      ],
+      "default": "button",
+      "info": "t:info.edit_button_style_in_theme_settings"
+    },
+    {
+      "type": "header",
+      "content": "t:content.button_colors",
+      "visible_if": "{{ block.settings.style_class == \"button-custom\" }}"
+    },
+    {
+      "type": "color",
+      "id": "custom_button_background",
+      "label": "t:settings.background",
+      "default": "{{ settings.color_palette.foreground }}",
+      "alpha": true,
+      "visible_if": "{{ block.settings.style_class == 'button-custom' }}"
+    },
+    {
+      "type": "color",
+      "id": "custom_button_text",
+      "label": "t:settings.text",
+      "default": "{{ settings.color_palette.background }}",
+      "alpha": true,
+      "visible_if": "{{ block.settings.style_class == 'button-custom' }}"
+    },
+    {
+      "type": "color",
+      "id": "custom_button_border",
+      "label": "t:settings.borders",
+      "default": "{{ settings.color_palette.background }}",
+      "alpha": true,
+      "visible_if": "{{ block.settings.style_class == 'button-custom' }}"
+    }
+  ]
+}
+{% endschema %}

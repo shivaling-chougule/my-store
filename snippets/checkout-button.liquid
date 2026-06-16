@@ -1,0 +1,36 @@
+{%- doc -%}
+  Renders a "Checkout" link that routes the customer to the checkout with their existing cart.
+  Does NOT add the current product to the cart.
+
+  @param {boolean} [icon_only_on_mobile] - If `true`, only the icon is shown on mobile devices.
+  @param {string} [class] - Additional CSS classes to apply to the button.
+  @param {string} [id] - The ID attribute for the link.
+  @param {string} [data_testid] - The data-testid attribute for testing.
+{%- enddoc -%}
+
+<a
+  {% if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+  href="{{ routes.checkout_url }}"
+  class="button {{ class }}"
+  {% if data_testid %}
+    data-testid="{{ data_testid }}"
+  {% endif %}
+>
+  <span class="checkout-text">
+    <span
+      aria-hidden="true"
+      class="svg-wrapper checkout-icon"
+    >
+      {{- 'icon-cart.svg' | inline_asset_content -}}
+    </span>
+    <span class="checkout-text__content{% if icon_only_on_mobile %} is-visually-hidden-mobile{% endif %}">
+      <span>
+        <span>
+          Check out
+        </span>
+      </span>
+    </span>
+  </span>
+</a>
