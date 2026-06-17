@@ -255,20 +255,11 @@
 </div>
 
 <div class="cart__ctas">
-  <button
-    type="submit"
-    id="checkout"
-    class="cart__checkout-button button"
-    name="checkout"
-    {% if cart == empty %}
-      disabled
-    {% endif %}
-    form="cart-form"
-  >
-    <span class="button-text">
-      {{ 'content.checkout' | t }}
-    </span>
-  </button>
+  {% render 'checkout-button',
+    id: 'checkout',
+    class: 'cart__checkout-button',
+    data_testid: 'cart-checkout'
+  %}
 
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div
